@@ -8,7 +8,6 @@ from commonregex import CommonRegex
 
 from piicatcher.piitypes import PiiTypes
 
-
 # pylint: disable=too-few-public-methods
 class Scanner(ABC):
     """Scanner abstract class that defines required methods"""
@@ -65,6 +64,8 @@ class NERScanner(Scanner):
 
 
 class ColumnNameScanner(Scanner):
+    def __init__(self, exclude_regex=()):
+        self._exclude_regex = re.compile(exclude_regex[0], re.IGNORECASE)   # [0] cause the option comes as tuple
     regex = {
         PiiTypes.PERSON: re.compile(
             "^.*(firstname|fname|lastname|lname|"
@@ -92,7 +93,7 @@ class ColumnNameScanner(Scanner):
     def scan(self, text):
         types = set()
         for pii_type in self.regex:
-            if self.regex[pii_type].match(text) is not None:
+            if self.regex[pii_type].match(text) is not None and self._exclude_regex.match(text) is None:    # excluded_regex shouldn't match
                 types.add(pii_type)
 
         logging.debug("PiiTypes are %s", ",".join(str(x) for x in list(types)))
