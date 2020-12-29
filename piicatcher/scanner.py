@@ -84,12 +84,14 @@ class ColumnNameScanner(Scanner):
         PiiTypes.GENDER: re.compile("^.*(gender).*$", re.IGNORECASE),
         PiiTypes.NATIONALITY: re.compile("^.*(nationality).*$", re.IGNORECASE),
         PiiTypes.ADDRESS: re.compile(
-            "^.*(address|city|state|county|country|" "zipcode|postal|zone|borough).*$",
+            "^.*(addr|state|county|country|" "zipcode|postal|zone|borough|line1|line_|line2|pincode|landmark|contact).*$",    # replacing address with addr
             re.IGNORECASE,
         ),
         PiiTypes.USER_NAME: re.compile("^.*user(id|name|).*$", re.IGNORECASE),
-        PiiTypes.PASSWORD: re.compile("^.*pass.*$", re.IGNORECASE),
-        PiiTypes.SSN: re.compile("^.*(ssn|social).*$", re.IGNORECASE),
+        PiiTypes.PASSWORD: re.compile("^.*(pass|access_token).*$", re.IGNORECASE),
+        PiiTypes.SSN: re.compile("^.*(ssn|social|aadhar|adhaar|aadhaar|pan).*$", re.IGNORECASE),
+        PiiTypes.PHONE: re.compile("^.*(phone|mobile|mob_).*$", re.IGNORECASE),
+        PiiTypes.LOCATION: re.compile("^.*(location|lat|lon).*$", re.IGNORECASE),
     }
 
     def scan(self, text):

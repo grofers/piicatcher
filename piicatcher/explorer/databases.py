@@ -236,7 +236,6 @@ class PostgreSQLExplorer(RelDbExplorer):
             INFORMATION_SCHEMA.COLUMNS
         WHERE
             TABLE_SCHEMA NOT IN ('information_schema', 'pg_catalog')
-            AND DATA_TYPE SIMILAR TO '%char%|%text%'
         ORDER BY table_schema, table_name, column_name
     """
 
